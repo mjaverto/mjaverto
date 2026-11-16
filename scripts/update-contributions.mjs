@@ -14,6 +14,8 @@
 //         override get a blurb from `omp -p --no-tools`. The model has zero tools and no
 //         credentials (token env scrubbed); it only sees public descriptions as data, and its
 //         reply is parsed, key-filtered and sanitized. Any failure falls back to the heuristic.
+//         Repos with NO description get a blurb from a bounded README excerpt (2000 chars,
+//         fetched by node) when one exists.
 // Local:  GITHUB_TOKEN=$(gh auth token) node scripts/update-contributions.mjs --dry-run
 // Scheduled by launchd via scripts/refresh.sh (com.mjaverto.profile-readme).
 // Fails loudly (non-zero exit, README untouched) on API errors or incomplete data
@@ -44,12 +46,13 @@ const QUERY = `query($q: String!, $cursor: String) {
 // ponytail: heuristic short descriptions, some lines end in an ellipsis, per-repo override map
 export function shortDesc(raw, max = 90) {
   let s = (raw ?? "")
+    .replace(/[\u202A-\u202E\u2066-\u2069\u200B\u2060\uFEFF]/g, "")
     .replace(/(^|\s):[a-z0-9_+-]+:(?=\s|$)/g, "$1")
-    .replace(/\b(?:https?:\/\/|www\.)\S+|\S+@\S+\.\S+/gi, "")
+    .replace(/\[([^\]]*)\]\([^)\s]*\)/g, "$1")
+    .replace(/\(?(?:(?:https?|ftp):\/\/|www\.)\S*|\S+@\S+\.\S+/gi, "")
     .replace(/\s+/g, " ")
     .trim()
-    .replace(/\.+$/, "")
-    .trim();
+    .replace(/[\s.:;,|(\-\u2013\u2014]+$/, "");
 
   if (s.length > max) {
     let cut = -1;
@@ -176,6 +179,7 @@ export async function fetchContributions({ token, user, fetchImpl = fetch }) {
 export async function fetchReadme(name, { token, fetchImpl = fetch }) {
   try {
     const res = await fetchImpl(`https://api.github.com/repos/${name}/readme`, {
+      signal: AbortSignal.timeout(15000),
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/vnd.github.raw+json",
@@ -232,18 +236,23 @@ export function askBlurbs(need, { model, run = runOmp }) {
   for (const [k, v] of Object.entries(parsed)) {
     if (!names.has(k) || typeof v !== "string") continue;
     const blurb = v.replace(/\s+/g, " ").trim();
-    if (blurb) blurbs[k] = blurb;
+    if (blurb && blurb.length <= 200) blurbs[k] = blurb;
   }
   return blurbs;
 }
 
-function loadOverrides(path) {
+export function loadOverrides(path) {
+  let data;
   try {
-    return JSON.parse(readFileSync(path, "utf8"));
+    data = JSON.parse(readFileSync(path, "utf8"));
   } catch (err) {
     if (err.code === "ENOENT") return {};
     throw err;
   }
+  if (!data || typeof data !== "object" || Array.isArray(data) || !Object.values(data).every((v) => typeof v === "string")) {
+    throw new Error(`${path} must be an object mapping "owner/repo" to a string`);
+  }
+  return data;
 }
 
 export async function main(argv = process.argv.slice(2)) {
@@ -262,14 +271,13 @@ export async function main(argv = process.argv.slice(2)) {
     const overrides = loadOverrides(overridesPath);
     const model = process.env.BLURB_MODEL;
     const need = model && !dryRun ? await needBlurbs(repos, overrides, { token }) : [];
+    let added = false;
     if (need.length) {
       try {
+        // ponytail: a repo the model skips is re-asked every run, a few cents per week, record null in descriptions.json
         const blurbs = askBlurbs(need, { model });
-        if (Object.keys(blurbs).length) {
-          Object.assign(overrides, blurbs);
-          const sorted = Object.fromEntries(Object.entries(overrides).sort(([a], [b]) => (a < b ? -1 : 1)));
-          writeFileSync(overridesPath, JSON.stringify(sorted, null, 2) + "\n");
-        }
+        added = Object.keys(blurbs).length > 0;
+        Object.assign(overrides, blurbs);
       } catch (err) {
         console.warn(`Blurb model step failed, using heuristic descriptions: ${err.message}`);
       }
@@ -284,6 +292,10 @@ export async function main(argv = process.argv.slice(2)) {
     const today = new Date().toISOString().slice(0, 10);
     const updated = applyBlock(readme, lines, today);
     if (updated !== readme) writeFileSync(readmePath, updated);
+    if (added) {
+      const sorted = Object.fromEntries(Object.entries(overrides).sort(([a], [b]) => (a < b ? -1 : 1)));
+      writeFileSync(overridesPath, JSON.stringify(sorted, null, 2) + "\n");
+    }
     console.error(`${repos.length} repos; README ${updated === readme ? "unchanged" : "updated"}`);
   } catch (err) {
     console.error(err.message);

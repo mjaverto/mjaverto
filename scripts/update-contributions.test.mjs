@@ -1,5 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { mkdtempSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import {
   shortDesc,
   formatStars,
@@ -9,6 +12,7 @@ import {
   fetchContributions,
   needBlurbs,
   fetchReadme,
+  loadOverrides,
   askBlurbs,
 } from "./update-contributions.mjs";
 
@@ -205,6 +209,19 @@ test("shortDesc strips URLs and emails", () => {
   assert.equal(shortDesc("See www.evil.example now"), "See now");
 });
 
+test("shortDesc removes markdown links, wrapped and bare URLs, and trailing separators", () => {
+  assert.equal(shortDesc("Great tool (https://foo.dev)"), "Great tool");
+  assert.equal(shortDesc("Cool lib | https://x.io"), "Cool lib");
+  assert.equal(shortDesc("[Docs](https://foo.dev) for things"), "Docs for things");
+  assert.equal(shortDesc("Great tool. Docs: https://foo.dev"), "Great tool. Docs");
+  assert.ok(!/https?|ftp/.test(shortDesc("_https://evil.example/x and ftp://evil.example/y")));
+});
+
+test("shortDesc strips bidi controls but keeps ZWJ", () => {
+  assert.equal(shortDesc("a\u202Eb\u200Bc\u2066d\uFEFF"), "abcd");
+  assert.equal(shortDesc("x\u200Dy"), "x\u200Dy");
+});
+
 test("shortDesc never leaves a lone surrogate when cutting", () => {
   const out = shortDesc("x".repeat(88) + "\u{1F1FA}\u{1F1F8}".repeat(3));
   assert.equal(out, "x".repeat(88) + "\u2026");
@@ -254,4 +271,25 @@ test("askBlurbs extracts JSON from prose, drops foreign keys and non-strings, th
   const reply = 'Sure!\n```json\n{"a/x": "  A\\n tool ", "b/y": 5, "evil/other": "nope", "c/z": "  "}\n```';
   assert.deepEqual(askBlurbs(need, { model: "m", run: () => reply }), { "a/x": "A tool" });
   assert.throws(() => askBlurbs(need, { model: "m", run: () => "no json here" }));
+});
+
+test("askBlurbs drops blurbs longer than 200 characters", () => {
+  const need = [{ nameWithOwner: "a/x", description: "d" }, { nameWithOwner: "b/y", description: "d" }];
+  const reply = JSON.stringify({ "a/x": "y".repeat(201), "b/y": "ok" });
+  assert.deepEqual(askBlurbs(need, { model: "m", run: () => reply }), { "b/y": "ok" });
+});
+
+test("loadOverrides accepts a missing file and rejects bad shapes or JSON", () => {
+  const dir = mkdtempSync(join(tmpdir(), "ov-"));
+  const load = (text) => {
+    const f = join(dir, "d.json");
+    writeFileSync(f, text);
+    return () => loadOverrides(f);
+  };
+  assert.deepEqual(loadOverrides(join(dir, "missing.json")), {});
+  assert.deepEqual(load('{"a/b": "x"}')(), { "a/b": "x" });
+  assert.throws(load("[]"), /must be an object/);
+  assert.throws(load('{"a/b": 5}'), /must be an object/);
+  assert.throws(load("null"), /must be an object/);
+  assert.throws(load("{nope"), SyntaxError);
 });
