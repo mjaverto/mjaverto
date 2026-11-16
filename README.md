@@ -7,6 +7,7 @@ Builder, founder, and software systems person. I work on local-first AI tools, a
 #### Contributing to
 
 ##### Public / external projects
+<!-- contributing:start -->
 - [paperclipai/paperclip](https://github.com/paperclipai/paperclip) - 68.9k stars - The open-source app everyone uses to manage agents at work.
 - [otreva/personal-assistant](https://github.com/otreva/personal-assistant) - 1 star - Personal assistant project with Slack search, admin UI, redaction, backup, and Graphiti tooling.
 - [earendil-works/pi](https://github.com/earendil-works/pi) - 59.2k stars - AI agent toolkit: coding agent CLI, unified LLM API, TUI & web UI libraries, Slack bot, vLLM pods.
@@ -36,6 +37,7 @@ Builder, founder, and software systems person. I work on local-first AI tools, a
 - [filamentgroup/tablesaw](https://github.com/filamentgroup/tablesaw) - 5.4k stars - A group of plugins for responsive tables.
 - [pimusicbox/pimusicbox](https://github.com/pimusicbox/pimusicbox) - 2k stars - An image (SD-card) to turn the Raspberry Pi into an easy to use MusicBox with Spotify playback and AirTunes streaming.
 - [desandro/masonry](https://github.com/desandro/masonry) - 16.7k stars - :love_hotel: Cascading grid layout plugin.
+<!-- contributing:end -->
 
 #### Mike's personal projects
 - [mjaverto/infinite-recall](https://github.com/mjaverto/infinite-recall) - Local-first macOS memory, screen/audio recall, transcription, and activity tooling.
