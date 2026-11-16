@@ -8,35 +8,44 @@ Builder, founder, and software systems person. I work on local-first AI tools, a
 
 ##### Public / external projects
 <!-- contributing:start -->
-- [paperclipai/paperclip](https://github.com/paperclipai/paperclip) - 68.9k stars - The open-source app everyone uses to manage agents at work.
-- [otreva/personal-assistant](https://github.com/otreva/personal-assistant) - 1 star - Personal assistant project with Slack search, admin UI, redaction, backup, and Graphiti tooling.
-- [earendil-works/pi](https://github.com/earendil-works/pi) - 59.2k stars - AI agent toolkit: coding agent CLI, unified LLM API, TUI & web UI libraries, Slack bot, vLLM pods.
-- [wilr/grunt-shopify](https://github.com/wilr/grunt-shopify) - 108 stars - Grunt plug-in for publishing Shopify theme assets.
-- [danny-avila/LibreChat](https://github.com/danny-avila/LibreChat) - 38k stars - Enhanced ChatGPT Clone: Features Agents, MCP, DeepSeek, Anthropic, AWS, OpenAI, Responses API, Azure, Groq, o1, GPT-5, Mistral, OpenRouter, Vertex AI, Gemini, Artifacts, AI model switching, message search, Code Interpreter, langchain, DALL-E-3, OpenAPI Actions, Functions, Secure Multi-User Auth, Presets, open-source for self-hosting. Active.
-- [ChannelApe/channelape-typescript-web-service-sdk](https://github.com/ChannelApe/channelape-typescript-web-service-sdk) - 3 stars - Common services, controllers, and models for ChannelApe TypeScript and JavaScript web services.
-- [hashicorp/vagrant](https://github.com/hashicorp/vagrant) - 27.1k stars - Vagrant is a tool for building and distributing development environments.
-- [tinyfatco/troublemaker](https://github.com/tinyfatco/troublemaker) - 49 stars - Mom, liberated. Multi-platform AI agent runtime.
-- [LibreChat-AI/librechat.ai](https://github.com/LibreChat-AI/librechat.ai) - 532 stars - librechat.ai.
-- [HubSpot/sample-workflow-custom-code](https://github.com/HubSpot/sample-workflow-custom-code) - 77 stars - Sample code snippets for the custom code workflow action.
-- [ChannelApe/channelape-typescript-consumer-service-sdk](https://github.com/ChannelApe/channelape-typescript-consumer-service-sdk) - 1 star - Common services, controllers, and models for ChannelApe TypeScript and JavaScript consumer services.
-- [ChannelApe/channelape-typescript-logger](https://github.com/ChannelApe/channelape-typescript-logger) - 0 stars - Contains common Logging class used by all ChannelApe TypeScript and JavaScript projects.
-- [ChannelApe/generator-channelape](https://github.com/ChannelApe/generator-channelape) - 2 stars - Scaffold out a node module.
-- [aws/amazon-ecs-agent](https://github.com/aws/amazon-ecs-agent) - 2.2k stars - Amazon Elastic Container Service Agent.
-- [olefredrik/FoundationPress](https://github.com/olefredrik/FoundationPress) - 2.7k stars - FoundationPress is a WordPress starter theme based on Foundation 6 by Zurb.
-- [xoxco/jQuery-Tags-Input](https://github.com/xoxco/jQuery-Tags-Input) - 2.3k stars - Magically convert a simple text input into a cool tag list with this jQuery plugin.
-- [jalxob/cool-kitten](https://github.com/jalxob/cool-kitten) - 1.4k stars - A parallax scrolling responsive framework.
-- [anthropics/claude-code](https://github.com/anthropics/claude-code) - 129.7k stars - Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows - all through natural language commands.
-- [aaronsb/google-workspace-mcp](https://github.com/aaronsb/google-workspace-mcp) - 152 stars - A Model Context Protocol (MCP) server that provides authenticated access to Google Workspace APIs, offering integrated Authentication, Gmail, Calendar, and Drive functionality.
-- [commaai/openpilot](https://github.com/commaai/openpilot) - 61.2k stars - openpilot is an operating system for robotics. Currently, it upgrades the driver assistance system on 300+ supported cars.
-- [rancher/os](https://github.com/rancher/os) - 6.5k stars - Tiny Linux distro that runs the entire OS as Docker containers.
-- [dbader/node-datadog-metrics](https://github.com/dbader/node-datadog-metrics) - 147 stars - Buffered metrics reporting via the DataDog HTTP API.
-- [rancher/rancher](https://github.com/rancher/rancher) - 25.6k stars - Complete container management platform.
-- [nginx-proxy/docker-gen](https://github.com/nginx-proxy/docker-gen) - 4.6k stars - Generate files from docker container meta-data.
-- [mapsplugin/cordova-plugin-googlemaps](https://github.com/mapsplugin/cordova-plugin-googlemaps) - 1.7k stars - Google Maps plugin for Cordova.
-- [nginx-proxy/nginx-proxy](https://github.com/nginx-proxy/nginx-proxy) - 19.9k stars - Automated Nginx Reverse Proxy for Docker.
-- [filamentgroup/tablesaw](https://github.com/filamentgroup/tablesaw) - 5.4k stars - A group of plugins for responsive tables.
-- [pimusicbox/pimusicbox](https://github.com/pimusicbox/pimusicbox) - 2k stars - An image (SD-card) to turn the Raspberry Pi into an easy to use MusicBox with Spotify playback and AirTunes streaming.
-- [desandro/masonry](https://github.com/desandro/masonry) - 16.7k stars - :love_hotel: Cascading grid layout plugin.
+- [waycar/waycar-app](https://github.com/waycar/waycar-app) - 1 star - A native iPhone and iPad console for the coding agents on your own computers
+- [HazAT/ultimate](https://github.com/HazAT/ultimate) - 573 stars - A local coding agent with a web UI that builds itself while it runs, on Pi Durable
+- [steipete/CodexBar](https://github.com/steipete/CodexBar) - 23.2k stars - Show usage stats for OpenAI Codex and Claude Code, without having to login
+- [leits/MeetingBar](https://github.com/leits/MeetingBar) - 5.4k stars - 🇺🇦 Your meetings at your fingertips in the macOS menu bar
+- [tobi/qmd](https://github.com/tobi/qmd) - 31.2k stars - mini cli search engine for your docs, knowledge bases, meeting notes, whatever
+- [ZingerLittleBee/Heeler](https://github.com/ZingerLittleBee/Heeler) - 900 stars - Native iPhone and iPad console for herdr
+- [nghialuong/Lidless](https://github.com/nghialuong/Lidless) - 191 stars - macOS menu-bar app: keep your Mac running with the lid closed (for coding agents)
+- [Shapekit/spindle](https://github.com/Shapekit/spindle) - 0 stars - Agent-driven scaffolding for full-stack private sites on a free Cloudflare account
+- [altic-dev/FluidVoice](https://github.com/altic-dev/FluidVoice) - 13.1k stars - macOS dictation app with on-device speech-to-text and custom AI enhancement
+- [baphuongna/pi-crew](https://github.com/baphuongna/pi-crew) - 57 stars - Pi extension for multi-agent orchestration with child processes and worktrees
+- [paperclipai/paperclip](https://github.com/paperclipai/paperclip) - 114.3k stars - The open-source app everyone uses to manage agents at work
+- [earendil-works/pi](https://github.com/earendil-works/pi) - 122.3k stars - AI agent toolkit: unified LLM API, agent loop, TUI, coding agent CLI
+- [anthropics/claude-code](https://github.com/anthropics/claude-code) - 155.9k stars - Claude Code is an agentic coding tool that lives in your terminal
+- [otreva/personal-assistant](https://github.com/otreva/personal-assistant) - 1 star - Personal assistant with Slack search, admin UI, redaction, backups, and Graphiti tooling
+- [aaronsb/google-workspace-mcp](https://github.com/aaronsb/google-workspace-mcp) - 198 stars - MCP server for authenticated Google Workspace access: Gmail, Calendar, Drive
+- [LibreChat-AI/docs](https://github.com/LibreChat-AI/docs) - 696 stars - Official documentation, blog, and changelog for LibreChat
+- [LibreChat-AI/LibreChat](https://github.com/LibreChat-AI/LibreChat) - 47.2k stars - Enhanced ChatGPT Clone
+- [HubSpot/sample-workflow-custom-code](https://github.com/HubSpot/sample-workflow-custom-code) - 79 stars - Sample code snippets for the custom code workflow action
+- [commaai/openpilot](https://github.com/commaai/openpilot) - 64.2k stars - openpilot is an operating system for robotics
+- [rancher/os](https://github.com/rancher/os) - 6.4k stars - Tiny Linux distro that runs the entire OS as Docker containers
+- [dbader/node-datadog-metrics](https://github.com/dbader/node-datadog-metrics) - 147 stars - Buffered metrics reporting via the DataDog HTTP API
+- [ChannelApe/channelape-typescript-consumer-service-sdk](https://github.com/ChannelApe/channelape-typescript-consumer-service-sdk) - 1 star - Shared services, controllers, and models for ChannelApe consumer services
+- [ChannelApe/channelape-typescript-logger](https://github.com/ChannelApe/channelape-typescript-logger) - 0 stars - Contains common Logging class used by all ChannelApe TypeScript and JavaScript projects
+- [ChannelApe/channelape-typescript-web-service-sdk](https://github.com/ChannelApe/channelape-typescript-web-service-sdk) - 3 stars - Shared services, controllers, and models for ChannelApe web services
+- [ChannelApe/generator-channelape](https://github.com/ChannelApe/generator-channelape) - 2 stars - Scaffold out a node module
+- [rancher/rancher](https://github.com/rancher/rancher) - 26.1k stars - Complete container management platform
+- [nginx-proxy/docker-gen](https://github.com/nginx-proxy/docker-gen) - 4.6k stars - Generate files from docker container meta-data
+- [aws/amazon-ecs-agent](https://github.com/aws/amazon-ecs-agent) - 2.2k stars - Amazon Elastic Container Service Agent
+- [hashicorp/vagrant](https://github.com/hashicorp/vagrant) - 27.2k stars - Vagrant is a tool for building and distributing development environments
+- [mapsplugin/cordova-plugin-googlemaps](https://github.com/mapsplugin/cordova-plugin-googlemaps) - 1.7k stars - Google Maps plugin for Cordova
+- [nginx-proxy/nginx-proxy](https://github.com/nginx-proxy/nginx-proxy) - 19.9k stars - Automated Nginx Reverse Proxy for Docker
+- [olefredrik/FoundationPress](https://github.com/olefredrik/FoundationPress) - 2.7k stars - FoundationPress is a WordPress starter theme based on Foundation 6 by Zurb
+- [filamentgroup/tablesaw](https://github.com/filamentgroup/tablesaw) - 5.4k stars - A group of plugins for responsive tables
+- [wilr/grunt-shopify](https://github.com/wilr/grunt-shopify) - 108 stars - Grunt plug-in for publishing Shopify theme assets
+- [xoxco/jQuery-Tags-Input](https://github.com/xoxco/jQuery-Tags-Input) - 2.3k stars - Magically convert a simple text input into a cool tag list with this jQuery plugin
+- [jalxob/cool-kitten](https://github.com/jalxob/cool-kitten) - 1.4k stars - A parallax scrolling responsive framework
+- [pimusicbox/pimusicbox](https://github.com/pimusicbox/pimusicbox) - 2k stars - Raspberry Pi SD-card image for a music box with Spotify and AirTunes
+- [desandro/masonry](https://github.com/desandro/masonry) - 16.7k stars - Cascading grid layout plugin
 <!-- contributing:end -->
 
 #### Mike's personal projects
@@ -46,4 +55,4 @@ Builder, founder, and software systems person. I work on local-first AI tools, a
 - [mjaverto/park-slope-heroes](https://github.com/mjaverto/park-slope-heroes) - Browser game fixes, audio behavior, mobile controls, and Pages deployment.
 - [mjaverto/messaging-markdown-exporter](https://github.com/mjaverto/messaging-markdown-exporter) - Native/passive message export adapters, contacts, and CI/CD.
 
-*Last updated: 2026-06-02*
+*Last updated: 2026-11-16*

@@ -1,3 +1,9 @@
 {
-  "otreva/personal-assistant": "Personal assistant with Slack search, admin UI, redaction, backups, and Graphiti tooling"
+  "ChannelApe/channelape-typescript-consumer-service-sdk": "Shared services, controllers, and models for ChannelApe consumer services",
+  "ChannelApe/channelape-typescript-web-service-sdk": "Shared services, controllers, and models for ChannelApe web services",
+  "aaronsb/google-workspace-mcp": "MCP server for authenticated Google Workspace access: Gmail, Calendar, Drive",
+  "altic-dev/FluidVoice": "macOS dictation app with on-device speech-to-text and custom AI enhancement",
+  "baphuongna/pi-crew": "Pi extension for multi-agent orchestration with child processes and worktrees",
+  "otreva/personal-assistant": "Personal assistant with Slack search, admin UI, redaction, backups, and Graphiti tooling",
+  "pimusicbox/pimusicbox": "Raspberry Pi SD-card image for a music box with Spotify and AirTunes"
 }
