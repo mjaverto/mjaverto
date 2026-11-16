@@ -8,6 +8,7 @@ import {
   applyBlock,
   fetchContributions,
   needBlurbs,
+  fetchReadme,
   askBlurbs,
 } from "./update-contributions.mjs";
 
@@ -216,15 +217,36 @@ test("renderLine prefers an override and still sanitizes it", () => {
   assert.match(renderLine(repo, {}), /from github$/);
 });
 
-test("needBlurbs picks only long described repos without an override", () => {
+const text = (status, body) => async () => ({ ok: status < 400, status, text: async () => body });
+
+test("fetchReadme truncates to 2000 chars and returns null on errors or empty bodies", async () => {
+  assert.equal((await fetchReadme("o/r", { token: "t", fetchImpl: text(200, "x".repeat(5000)) })).length, 2000);
+  assert.equal(await fetchReadme("o/r", { token: "t", fetchImpl: text(404, "Not Found") }), null);
+  assert.equal(await fetchReadme("o/r", { token: "t", fetchImpl: text(200, "  \n") }), null);
+  assert.equal(await fetchReadme("o/r", { token: "t", fetchImpl: async () => { throw new Error("net"); } }), null);
+});
+
+test("needBlurbs selects truncated descriptions and readme-backed empty ones, never pinned repos", async () => {
   const long = "word ".repeat(60);
   const repos = [
     { nameWithOwner: "a/long", description: long },
     { nameWithOwner: "b/pinned", description: long },
-    { nameWithOwner: "c/none", description: null },
-    { nameWithOwner: "d/short", description: "Short one" },
+    { nameWithOwner: "c/empty-with-readme", description: ":fire:" },
+    { nameWithOwner: "d/empty-no-readme", description: null },
+    { nameWithOwner: "e/short", description: "Short one" },
+    { nameWithOwner: "f/pinned-empty", description: null },
   ];
-  assert.deepEqual(needBlurbs(repos, { "b/pinned": "x" }).map((r) => r.nameWithOwner), ["a/long"]);
+  const fetchImpl = async (url) => text(url.includes("/c/") ? 200 : 404, "# C\nA thing")();
+  const warn = console.warn;
+  console.warn = () => {};
+  let need;
+  try {
+    need = await needBlurbs(repos, { "b/pinned": "x", "f/pinned-empty": "y" }, { token: "t", fetchImpl });
+  } finally {
+    console.warn = warn;
+  }
+  assert.deepEqual(need.map((r) => r.nameWithOwner), ["a/long", "c/empty-with-readme"]);
+  assert.equal(need[1].readme, "# C\nA thing");
 });
 
 test("askBlurbs extracts JSON from prose, drops foreign keys and non-strings, throws on garbage", () => {
