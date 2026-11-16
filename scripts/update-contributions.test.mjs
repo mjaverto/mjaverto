@@ -7,6 +7,8 @@ import {
   renderLine,
   applyBlock,
   fetchContributions,
+  needBlurbs,
+  askBlurbs,
 } from "./update-contributions.mjs";
 
 test("shortDesc cuts at the earliest strong separator or last comma", () => {
@@ -82,7 +84,6 @@ test("groupRepos orders newest first, collapses repos, breaks ties by name, and 
     node("Issue", "MJaverto/mine", "2026-01-01T00:00:00Z"),
     node("Issue", "p/secret", "2026-01-01T00:00:00Z", { isPrivate: true }),
     node("Issue", "bad name/x", "2026-01-01T00:00:00Z"),
-    null,
     {},
   ];
   const warn = console.warn;
@@ -113,22 +114,26 @@ const README = "intro\n<!-- contributing:start -->\n- old\n<!-- contributing:end
 test("applyBlock rejects missing, duplicated and reversed markers", () => {
   const S = "<!-- contributing:start -->";
   const E = "<!-- contributing:end -->";
-  assert.throws(() => applyBlock("nothing", ["- a"], "2026-01-01"));
-  assert.throws(() => applyBlock(`${S}\n`, ["- a"], "2026-01-01"));
-  assert.throws(() => applyBlock(`${E}\n`, ["- a"], "2026-01-01"));
-  assert.throws(() => applyBlock(`${S}${S}${E}`, ["- a"], "2026-01-01"));
-  assert.throws(() => applyBlock(`${S}${E}${E}`, ["- a"], "2026-01-01"));
-  assert.throws(() => applyBlock(`${E}${S}`, ["- a"], "2026-01-01"));
+  const go = (r) => () => applyBlock(r, ["- a"], "2026-01-01");
+  assert.throws(go("nothing"), /Start marker/);
+  assert.throws(go(`${S}\n`), /End marker/);
+  assert.throws(go(`${E}\n`), /Start marker/);
+  assert.throws(go(`${S}${S}${E}`), /Duplicate start/);
+  assert.throws(go(`${S}${E}${E}`), /Duplicate end/);
+  assert.throws(go(`${E}${S}`), /before start/);
 });
 
-test("applyBlock replaces only the block, bumps the footer date, and is stable within a day", () => {
+test("applyBlock changes the footer only when the block changed", () => {
   const once = applyBlock(README, ["- a", "- b"], "2026-11-16");
   assert.equal(
     once,
     "intro\n<!-- contributing:start -->\n- a\n- b\n<!-- contributing:end -->\n\nmore\n\n*Last updated: 2026-11-16*\n",
   );
-  assert.equal(applyBlock(once, ["- a", "- b"], "2026-11-16"), once);
-  assert.equal(applyBlock(once, ["- a", "- b"], "2027-01-01"), once.replace("2026-11-16", "2027-01-01"));
+  assert.equal(applyBlock(once, ["- a", "- b"], "2027-01-01"), once);
+  assert.equal(
+    applyBlock(once, ["- a"], "2027-01-01"),
+    once.replace("- b\n", "").replace("2026-11-16", "2027-01-01"),
+  );
 });
 
 test("applyBlock leaves a README without a footer alone outside the block", () => {
@@ -140,7 +145,7 @@ const page = (nodes, issueCount, next) => ({
   ok: true,
   status: 200,
   json: async () => ({
-    data: { search: { issueCount, pageInfo: { hasNextPage: !!next, endCursor: next ?? null }, nodes } },
+    data: { search: { issueCount, pageInfo: { hasNextPage: next !== undefined, endCursor: next }, nodes } },
   }),
 });
 
@@ -176,4 +181,55 @@ test("fetchContributions fails on GraphQL errors, HTTP errors and short results"
     fetchContributions({ ...args, fetchImpl: async () => page([node("Issue", "a/a", "2025-01-01T00:00:00Z")], 5) }),
     /Incomplete/,
   );
+});
+
+test("fetchContributions accepts results beyond the 1000 search cap", async () => {
+  const nodes = Array.from({ length: 1000 }, (_, i) => node("Issue", `o/r${i}`, "2025-01-01T00:00:00Z"));
+  const out = await fetchContributions({ token: "t", user: "u", fetchImpl: async () => page(nodes, 5000) });
+  assert.equal(out.length, 1000);
+});
+
+test("fetchContributions drops null nodes before counting and rejects a missing cursor", async () => {
+  const n = node("Issue", "a/a", "2025-01-01T00:00:00Z");
+  const out = await fetchContributions({ token: "t", user: "u", fetchImpl: async () => page([n, null], 1) });
+  assert.equal(out.length, 1);
+  await assert.rejects(
+    fetchContributions({ token: "t", user: "u", fetchImpl: async () => page([n], 2, null) }),
+    /endCursor/,
+  );
+});
+
+test("shortDesc strips URLs and emails", () => {
+  assert.equal(shortDesc("Cool tool https://evil.example/x?a=1 by me@evil.example"), "Cool tool by");
+  assert.equal(shortDesc("See www.evil.example now"), "See now");
+});
+
+test("shortDesc never leaves a lone surrogate when cutting", () => {
+  const out = shortDesc("x".repeat(88) + "\u{1F1FA}\u{1F1F8}".repeat(3));
+  assert.equal(out, "x".repeat(88) + "\u2026");
+  assert.equal(out.isWellFormed(), true);
+});
+
+test("renderLine prefers an override and still sanitizes it", () => {
+  const repo = { nameWithOwner: "o/r", stargazerCount: 0, description: "from github" };
+  assert.equal(renderLine(repo, { "o/r": "My *pinned* blurb" }), "- [o/r](https://github.com/o/r) - 0 stars - My \\*pinned\\* blurb");
+  assert.match(renderLine(repo, {}), /from github$/);
+});
+
+test("needBlurbs picks only long described repos without an override", () => {
+  const long = "word ".repeat(60);
+  const repos = [
+    { nameWithOwner: "a/long", description: long },
+    { nameWithOwner: "b/pinned", description: long },
+    { nameWithOwner: "c/none", description: null },
+    { nameWithOwner: "d/short", description: "Short one" },
+  ];
+  assert.deepEqual(needBlurbs(repos, { "b/pinned": "x" }).map((r) => r.nameWithOwner), ["a/long"]);
+});
+
+test("askBlurbs extracts JSON from prose, drops foreign keys and non-strings, throws on garbage", () => {
+  const need = [{ nameWithOwner: "a/x", description: "d" }, { nameWithOwner: "b/y", description: "d" }, { nameWithOwner: "c/z", description: "d" }];
+  const reply = 'Sure!\n```json\n{"a/x": "  A\\n tool ", "b/y": 5, "evil/other": "nope", "c/z": "  "}\n```';
+  assert.deepEqual(askBlurbs(need, { model: "m", run: () => reply }), { "a/x": "A tool" });
+  assert.throws(() => askBlurbs(need, { model: "m", run: () => "no json here" }));
 });
