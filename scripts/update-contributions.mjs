@@ -11,13 +11,14 @@
 // scripts/descriptions.json: { "owner/repo": "blurb" } pinned descriptions, hand-editable.
 //         Delete an entry to regenerate it. Overrides still go through shortDesc.
 // Model step (BLURB_MODEL set, not --dry-run): repos with a long GitHub description and no
-//         override get a blurb from `omp -p --no-tools`. The model has zero tools and no
-//         credentials (token env scrubbed); it only sees public descriptions as data, and its
+//         override get a blurb from `omp -p --no-tools`. The model has zero tools, no advisors
+//         (scripts/omp-no-advisor.yml overlay) and no credentials (token env scrubbed); it only sees public descriptions as data, and its
 //         reply is parsed, key-filtered and sanitized. Any failure falls back to the heuristic.
 //         Repos with NO description get a blurb from a bounded README excerpt (2000 chars,
 //         fetched by node) when one exists.
 // Local:  GITHUB_TOKEN=$(gh auth token) node scripts/update-contributions.mjs --dry-run
 // Scheduled by launchd via scripts/refresh.sh (com.mjaverto.profile-readme).
+// Install: scripts/install-launchd.sh
 // Fails loudly (non-zero exit, README untouched) on API errors or incomplete data
 // instead of publishing a partial list.
 import { execFileSync } from "node:child_process";
@@ -222,7 +223,7 @@ function runOmp(model, prompt) {
   const flags = ["--no-tools", "--no-session", "--no-context-files", "--no-skills", "--no-rules", "--no-extensions", "--no-lsp", "--no-title"];
   return execFileSync(
     "omp",
-    ["-p", ...flags, "--thinking", "low", "--max-cost", "0.5", "--max-time", "5m", "--model", model, prompt],
+    ["-p", ...flags, "--config", fileURLToPath(new URL("./omp-no-advisor.yml", import.meta.url)), "--thinking", "low", "--max-cost", "0.5", "--max-time", "5m", "--model", model, prompt],
     { env, cwd: tmpdir(), timeout: 6 * 60_000, encoding: "utf8" },
   );
 }

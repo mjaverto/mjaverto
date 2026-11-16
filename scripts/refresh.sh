@@ -1,4 +1,5 @@
 #!/bin/zsh -l
+# Install with scripts/install-launchd.sh.
 # Weekly job (launchd com.mjaverto.profile-readme). Works in its own clone ($PROFILE_CLONE, default ~/.local/share/profile-readme).
 main() {
   export PATH=/opt/homebrew/bin:/usr/local/bin:$HOME/.local/share/fnm/aliases/default/bin:$PATH
