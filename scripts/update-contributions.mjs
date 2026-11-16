@@ -11,8 +11,9 @@
 // scripts/descriptions.json: { "owner/repo": "blurb" } pinned descriptions, hand-editable.
 //         Delete an entry to regenerate it. Overrides still go through shortDesc.
 // Model step (BLURB_MODEL set, not --dry-run): repos with a long GitHub description and no
-//         override get a blurb from `omp -p --no-tools`. The model has zero tools, no advisors
-//         (scripts/omp-no-advisor.yml overlay) and no credentials (token env scrubbed); it only sees public descriptions as data, and its
+//         override get a blurb from `omp -p --no-tools`. The model has no tools, no advisors
+//         (scripts/omp-no-advisor.yml overlay), and GitHub token env vars are scrubbed from
+//         the child env. It only sees public descriptions as data, and its
 //         reply is parsed, key-filtered and sanitized. Any failure falls back to the heuristic.
 //         Repos with NO description get a blurb from a bounded README excerpt (2000 chars,
 //         fetched by node) when one exists.
