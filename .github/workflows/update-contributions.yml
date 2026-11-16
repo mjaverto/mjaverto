@@ -32,13 +32,4 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet -- README.md; then
-            git commit -am "chore: refresh contributions"
-          elif [ $(( $(date +%s) - $(git log -1 --format=%ct) )) -gt $(( 45 * 86400 )) ]; then
-            # GitHub disables schedules on public repos after 60 days without repo activity
-            git commit --allow-empty -m "chore: keep scheduled workflow active"
-          else
-            echo "No changes"
-            exit 0
-          fi
-          git push
+          git diff --quiet -- README.md || { git commit -am "chore: refresh contributions" && git push; }

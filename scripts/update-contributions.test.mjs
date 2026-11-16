@@ -121,14 +121,14 @@ test("applyBlock rejects missing, duplicated and reversed markers", () => {
   assert.throws(() => applyBlock(`${E}${S}`, ["- a"], "2026-01-01"));
 });
 
-test("applyBlock replaces only the block, updates footer on change, and is idempotent", () => {
+test("applyBlock replaces only the block, bumps the footer date, and is stable within a day", () => {
   const once = applyBlock(README, ["- a", "- b"], "2026-11-16");
   assert.equal(
     once,
     "intro\n<!-- contributing:start -->\n- a\n- b\n<!-- contributing:end -->\n\nmore\n\n*Last updated: 2026-11-16*\n",
   );
-  // Same lines on a later day: nothing changes, footer keeps its date.
-  assert.equal(applyBlock(once, ["- a", "- b"], "2027-01-01"), once);
+  assert.equal(applyBlock(once, ["- a", "- b"], "2026-11-16"), once);
+  assert.equal(applyBlock(once, ["- a", "- b"], "2027-01-01"), once.replace("2026-11-16", "2027-01-01"));
 });
 
 test("applyBlock leaves a README without a footer alone outside the block", () => {

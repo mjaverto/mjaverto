@@ -32,6 +32,7 @@ const QUERY = `query($q: String!, $cursor: String) {
   }
 }`;
 
+// ponytail: heuristic short descriptions, some lines end in an ellipsis, per-repo override map
 export function shortDesc(raw, max = 90) {
   let s = (raw ?? "")
     .replace(/(^|\s):[a-z0-9_+-]+:(?=\s|$)/g, "$1")
@@ -120,7 +121,7 @@ export function applyBlock(readme, lines, today) {
 
   const next =
     readme.slice(0, s + START.length) + "\n" + lines.join("\n") + "\n" + readme.slice(e);
-  if (next === readme) return readme;
+  // ponytail: always bump footer, weekly bot commit even if the list is unchanged, commit only on list diff + keepalive commit before 60 days idle
   return next.replace(
     /^\*Last updated: \d{4}-\d{2}-\d{2}\*$/m,
     () => `*Last updated: ${today}*`,
