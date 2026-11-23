@@ -9,22 +9,23 @@ Builder, founder, and software systems person. I work on local-first AI tools, a
 ##### Public / external projects
 <!-- contributing:start -->
 - [waycar/waycar-app](https://github.com/waycar/waycar-app) - 1 star - A native iPhone and iPad console for the coding agents on your own computers
-- [HazAT/ultimate](https://github.com/HazAT/ultimate) - 573 stars - A local coding agent with a web UI that builds itself while it runs, on Pi Durable
-- [steipete/CodexBar](https://github.com/steipete/CodexBar) - 23.2k stars - Show usage stats for OpenAI Codex and Claude Code, without having to login
+- [gridoe/refryt](https://github.com/gridoe/refryt) - 59 stars - A lightweight, native YouTube Music client written in Rust
+- [HazAT/ultimate](https://github.com/HazAT/ultimate) - 609 stars - A local coding agent with a web UI that builds itself while it runs, on Pi Durable
+- [steipete/CodexBar](https://github.com/steipete/CodexBar) - 23.3k stars - Show usage stats for OpenAI Codex and Claude Code, without having to login
 - [leits/MeetingBar](https://github.com/leits/MeetingBar) - 5.4k stars - 🇺🇦 Your meetings at your fingertips in the macOS menu bar
-- [tobi/qmd](https://github.com/tobi/qmd) - 31.2k stars - mini cli search engine for your docs, knowledge bases, meeting notes, whatever
-- [ZingerLittleBee/Heeler](https://github.com/ZingerLittleBee/Heeler) - 900 stars - Native iPhone and iPad console for herdr
-- [nghialuong/Lidless](https://github.com/nghialuong/Lidless) - 191 stars - macOS menu-bar app: keep your Mac running with the lid closed (for coding agents)
+- [tobi/qmd](https://github.com/tobi/qmd) - 31.4k stars - mini cli search engine for your docs, knowledge bases, meeting notes, whatever
+- [ZingerLittleBee/Heeler](https://github.com/ZingerLittleBee/Heeler) - 928 stars - Native iPhone and iPad console for the coding agents on your own machines
+- [nghialuong/Lidless](https://github.com/nghialuong/Lidless) - 190 stars - macOS menu-bar app: keep your Mac running with the lid closed (for coding agents)
 - [Shapekit/spindle](https://github.com/Shapekit/spindle) - 0 stars - Agent-driven scaffolding for full-stack private sites on a free Cloudflare account
-- [altic-dev/FluidVoice](https://github.com/altic-dev/FluidVoice) - 13.1k stars - macOS dictation app with on-device speech-to-text and custom AI enhancement
+- [altic-dev/FluidVoice](https://github.com/altic-dev/FluidVoice) - 13.2k stars - macOS dictation app with on-device speech-to-text and custom AI enhancement
 - [baphuongna/pi-crew](https://github.com/baphuongna/pi-crew) - 57 stars - Pi extension for multi-agent orchestration with child processes and worktrees
-- [paperclipai/paperclip](https://github.com/paperclipai/paperclip) - 114.3k stars - The open-source app everyone uses to manage agents at work
-- [earendil-works/pi](https://github.com/earendil-works/pi) - 122.3k stars - AI agent toolkit: unified LLM API, agent loop, TUI, coding agent CLI
-- [anthropics/claude-code](https://github.com/anthropics/claude-code) - 155.9k stars - Claude Code is an agentic coding tool that lives in your terminal
+- [paperclipai/paperclip](https://github.com/paperclipai/paperclip) - 116.2k stars - The open-source app everyone uses to manage agents at work
+- [earendil-works/pi](https://github.com/earendil-works/pi) - 123.5k stars - AI agent toolkit: unified LLM API, agent loop, TUI, coding agent CLI
+- [anthropics/claude-code](https://github.com/anthropics/claude-code) - 156.8k stars - Claude Code is an agentic coding tool that lives in your terminal
 - [otreva/personal-assistant](https://github.com/otreva/personal-assistant) - 1 star - Personal assistant with Slack search, admin UI, redaction, backups, and Graphiti tooling
-- [aaronsb/google-workspace-mcp](https://github.com/aaronsb/google-workspace-mcp) - 198 stars - MCP server for authenticated Google Workspace access: Gmail, Calendar, Drive
-- [LibreChat-AI/docs](https://github.com/LibreChat-AI/docs) - 696 stars - Official documentation, blog, and changelog for LibreChat
-- [LibreChat-AI/LibreChat](https://github.com/LibreChat-AI/LibreChat) - 47.2k stars - Enhanced ChatGPT Clone
+- [aaronsb/google-workspace-mcp](https://github.com/aaronsb/google-workspace-mcp) - 200 stars - MCP server for authenticated Google Workspace access: Gmail, Calendar, Drive
+- [LibreChat-AI/docs](https://github.com/LibreChat-AI/docs) - 703 stars - Official documentation, blog, and changelog for LibreChat
+- [LibreChat-AI/LibreChat](https://github.com/LibreChat-AI/LibreChat) - 47.4k stars - Enhanced ChatGPT Clone
 - [HubSpot/sample-workflow-custom-code](https://github.com/HubSpot/sample-workflow-custom-code) - 79 stars - Sample code snippets for the custom code workflow action
 - [commaai/openpilot](https://github.com/commaai/openpilot) - 64.2k stars - openpilot is an operating system for robotics
 - [rancher/os](https://github.com/rancher/os) - 6.4k stars - Tiny Linux distro that runs the entire OS as Docker containers
@@ -55,4 +56,4 @@ Builder, founder, and software systems person. I work on local-first AI tools, a
 - [mjaverto/park-slope-heroes](https://github.com/mjaverto/park-slope-heroes) - Browser game fixes, audio behavior, mobile controls, and Pages deployment.
 - [mjaverto/messaging-markdown-exporter](https://github.com/mjaverto/messaging-markdown-exporter) - Native/passive message export adapters, contacts, and CI/CD.
 
-*Last updated: 2026-11-16*
+*Last updated: 2026-11-23*
